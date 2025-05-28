@@ -1,0 +1,675 @@
+{
+  "datamodel": "generator client {\n  provider                    = \"prisma-client-py\"\n  output                      = \"./prisma\"\n  recursive_type_depth        = -1\n  enable_experimental_decimal = true\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel categorias {\n  id         Int    @id @default(autoincrement())\n  usuario_id Int?\n  nombre     String @db.VarChar(100)\n\n  @@index([usuario_id], map: \"usuario_id\")\n}\n\nmodel cuentas {\n  id               Int       @id @default(autoincrement())\n  usuario_id       Int?\n  nombre           String    @db.VarChar(100)\n  tipo             String?   @db.VarChar(50)\n  es_personalizada Boolean?  @default(false)\n  cuenta_base_id   Int?\n  saldo_inicial    Decimal?  @default(0.00) @db.Decimal(12, 2)\n  fecha_creacion   DateTime? @default(now()) @db.Timestamp(0)\n  descripcion      String?   @db.Text\n\n  @@index([cuenta_base_id], map: \"cuenta_base_id\")\n  @@index([usuario_id], map: \"usuario_id\")\n}\n\n/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.\nmodel transacciones {\n  id           Int       @id @default(autoincrement())\n  usuario_id   Int\n  cuenta_id    Int\n  categoria_id Int?\n  tipo         String    @db.VarChar(10)\n  monto        Decimal   @db.Decimal(12, 2)\n  descripcion  String?   @db.Text\n  fecha        DateTime? @default(now()) @db.Timestamp(0)\n\n  @@index([categoria_id], map: \"categoria_id\")\n  @@index([cuenta_id], map: \"cuenta_id\")\n  @@index([usuario_id], map: \"usuario_id\")\n}\n\nmodel usuarios {\n  id             Int       @id @default(autoincrement())\n  nombre         String    @db.VarChar(100)\n  email          String    @unique(map: \"email\") @db.VarChar(100)\n  password       String    @db.Text\n  fecha_creacion DateTime? @default(now()) @db.Timestamp(0)\n}\n",
+  "version": "393aa359c9ad4a4bb28630fb5613f9c281cde053",
+  "generator": {
+    "name": "client",
+    "output": {
+      "value": "C:\\Users\\Daniel\\Documents\\python\\financeApp\\prisma",
+      "from_env_var": null
+    },
+    "provider": {
+      "value": "prisma-client-py",
+      "from_env_var": null
+    },
+    "config": {
+      "interface": "asyncio",
+      "partial_type_generator": null,
+      "recursive_type_depth": -1,
+      "engine_type": "binary",
+      "enable_experimental_decimal": true
+    },
+    "binary_targets": [
+      {
+        "value": "windows",
+        "from_env_var": null
+      }
+    ],
+    "preview_features": []
+  },
+  "dmmf": {
+    "datamodel": {
+      "enums": [],
+      "models": [
+        {
+          "name": "categorias",
+          "documentation": null,
+          "db_name": null,
+          "is_generated": false,
+          "compound_primary_key": null,
+          "unique_indexes": [],
+          "all_fields": [
+            {
+              "name": "id",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "Int",
+              "is_id": true,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": true,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": {
+                "args": [],
+                "name": "autoincrement"
+              },
+              "has_default_value": true,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "usuario_id",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "Int",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": false,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": null,
+              "has_default_value": false,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "nombre",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "String",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": true,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": null,
+              "has_default_value": false,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            }
+          ],
+          "extension": null
+        },
+        {
+          "name": "cuentas",
+          "documentation": null,
+          "db_name": null,
+          "is_generated": false,
+          "compound_primary_key": null,
+          "unique_indexes": [],
+          "all_fields": [
+            {
+              "name": "id",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "Int",
+              "is_id": true,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": true,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": {
+                "args": [],
+                "name": "autoincrement"
+              },
+              "has_default_value": true,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "usuario_id",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "Int",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": false,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": null,
+              "has_default_value": false,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "nombre",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "String",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": true,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": null,
+              "has_default_value": false,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "tipo",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "String",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": false,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": null,
+              "has_default_value": false,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "es_personalizada",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "Boolean",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": false,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": false,
+              "has_default_value": true,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "cuenta_base_id",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "Int",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": false,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": null,
+              "has_default_value": false,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "saldo_inicial",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "Decimal",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": false,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": 0,
+              "has_default_value": true,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "fecha_creacion",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "DateTime",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": false,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": {
+                "args": [],
+                "name": "now"
+              },
+              "has_default_value": true,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "descripcion",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "String",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": false,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": null,
+              "has_default_value": false,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            }
+          ],
+          "extension": null
+        },
+        {
+          "name": "transacciones",
+          "documentation": "This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.",
+          "db_name": null,
+          "is_generated": false,
+          "compound_primary_key": null,
+          "unique_indexes": [],
+          "all_fields": [
+            {
+              "name": "id",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "Int",
+              "is_id": true,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": true,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": {
+                "args": [],
+                "name": "autoincrement"
+              },
+              "has_default_value": true,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "usuario_id",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "Int",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": true,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": null,
+              "has_default_value": false,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "cuenta_id",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "Int",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": true,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": null,
+              "has_default_value": false,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "categoria_id",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "Int",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": false,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": null,
+              "has_default_value": false,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "tipo",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "String",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": true,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": null,
+              "has_default_value": false,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "monto",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "Decimal",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": true,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": null,
+              "has_default_value": false,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "descripcion",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "String",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": false,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": null,
+              "has_default_value": false,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "fecha",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "DateTime",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": false,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": {
+                "args": [],
+                "name": "now"
+              },
+              "has_default_value": true,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            }
+          ],
+          "extension": null
+        },
+        {
+          "name": "usuarios",
+          "documentation": null,
+          "db_name": null,
+          "is_generated": false,
+          "compound_primary_key": null,
+          "unique_indexes": [],
+          "all_fields": [
+            {
+              "name": "id",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "Int",
+              "is_id": true,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": true,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": {
+                "args": [],
+                "name": "autoincrement"
+              },
+              "has_default_value": true,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "nombre",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "String",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": true,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": null,
+              "has_default_value": false,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "email",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "String",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": true,
+              "is_required": true,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": null,
+              "has_default_value": false,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "password",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "String",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": true,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": null,
+              "has_default_value": false,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            },
+            {
+              "name": "fecha_creacion",
+              "documentation": null,
+              "kind": "scalar",
+              "type": "DateTime",
+              "is_id": false,
+              "is_list": false,
+              "is_unique": false,
+              "is_required": false,
+              "is_read_only": false,
+              "is_generated": false,
+              "is_updated_at": false,
+              "default": {
+                "args": [],
+                "name": "now"
+              },
+              "has_default_value": true,
+              "relation_name": null,
+              "relation_on_delete": null,
+              "relation_to_fields": null,
+              "relation_from_fields": null
+            }
+          ],
+          "extension": null
+        }
+      ],
+      "types": []
+    },
+    "prisma_schema": {
+      "enum_types": {
+        "prisma": [
+          {
+            "name": "TransactionIsolationLevel",
+            "values": [
+              "ReadUncommitted",
+              "ReadCommitted",
+              "RepeatableRead",
+              "Serializable"
+            ]
+          },
+          {
+            "name": "CategoriasScalarFieldEnum",
+            "values": [
+              "id",
+              "usuario_id",
+              "nombre"
+            ]
+          },
+          {
+            "name": "CuentasScalarFieldEnum",
+            "values": [
+              "id",
+              "usuario_id",
+              "nombre",
+              "tipo",
+              "es_personalizada",
+              "cuenta_base_id",
+              "saldo_inicial",
+              "fecha_creacion",
+              "descripcion"
+            ]
+          },
+          {
+            "name": "TransaccionesScalarFieldEnum",
+            "values": [
+              "id",
+              "usuario_id",
+              "cuenta_id",
+              "categoria_id",
+              "tipo",
+              "monto",
+              "descripcion",
+              "fecha"
+            ]
+          },
+          {
+            "name": "UsuariosScalarFieldEnum",
+            "values": [
+              "id",
+              "nombre",
+              "email",
+              "password",
+              "fecha_creacion"
+            ]
+          },
+          {
+            "name": "SortOrder",
+            "values": [
+              "asc",
+              "desc"
+            ]
+          },
+          {
+            "name": "NullsOrder",
+            "values": [
+              "first",
+              "last"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "schema_path": "C:\\Users\\Daniel\\Documents\\python\\financeApp\\schema.prisma",
+  "datasources": [
+    {
+      "name": "db",
+      "provider": "mysql",
+      "active_provider": "mysql",
+      "url": {
+        "value": null,
+        "from_env_var": "DATABASE_URL"
+      },
+      "source_file_path": "C:\\Users\\Daniel\\Documents\\python\\financeApp\\schema.prisma"
+    }
+  ],
+  "other_generators": [],
+  "binary_paths": {
+    "query_engine": {
+      "windows": "C:\\Users\\Daniel\\.cache\\prisma-python\\binaries\\5.17.0\\393aa359c9ad4a4bb28630fb5613f9c281cde053\\node_modules\\prisma\\query-engine-windows.exe"
+    },
+    "introspection_engine": {},
+    "migration_engine": {},
+    "libquery_engine": {},
+    "prisma_format": {}
+  },
+  "names": {}
+}

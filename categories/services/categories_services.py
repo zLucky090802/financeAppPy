@@ -16,3 +16,16 @@ async def get_categorias(user_id:int):
 
     return categorias
 
+async def get_categorias_by_id(id: int):
+    
+    categoria = await db.categorias.find_unique(
+        where={
+            'id': int(id)
+        }
+    )
+
+    if categoria:
+        return categoria
+    else:
+        raise HTTPException(status_code=400, detail='Categoria no encontrada')
+    
